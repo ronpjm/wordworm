@@ -27,3 +27,7 @@ const keyDir={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'}
 document.addEventListener('keydown',e=>{if(e.code==='Escape'&&['playing','quiz','paused'].includes(game.state)){e.preventDefault();pause();return}if(e.target.matches('input,select,button')){if(e.target.matches('input,select'))return}if(keyDir[e.key]){e.preventDefault();game.turn(keyDir[e.key])}if(e.code==='Space'&&['playing','paused'].includes(game.state)){e.preventDefault();pause()}});
 $$('[data-dir]').forEach(b=>b.onclick=()=>game.turn(b.dataset.dir));document.addEventListener('visibilitychange',()=>{if(document.hidden&&['playing','quiz'].includes(game.state))pause()});window.addEventListener('blur',()=>{if(['playing','quiz'].includes(game.state))pause()});
 function advance(seconds){const result=game.tick(seconds);if(result.timeout){finish();return}if(game.state==='quiz'){hintAge+=seconds;if(!hintShown&&hintAge>=3)revealHint()}update()}
+// app.js 로딩 직후에는 이 파일이 아직 내려오는 중일 수 있습니다.
+// 은행·버튼·advance 초기화가 모두 끝난 이 지점에서 시작합니다.
+update();
+startGameLoop();
